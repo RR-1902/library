@@ -1,0 +1,164 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#070812">
+  <title>{% block title %}Lumina Books{% endblock %}</title>
+  <link rel="icon" href="{% static 'store/assets/logos/favicon.svg' %}" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Poppins:wght@600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="{% static 'store/css/styles.css' %}">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <div class="ambient ambient-grid"></div>
+  <div class="aurora" aria-hidden="true"></div>
+
+  <aside class="sidebar-shell" id="sidebar" aria-label="Primary navigation">
+    <a class="brand full-logo" href="{% url 'store:landing' %}" aria-label="Lumina Books home">
+      <img src="{% static 'store/assets/logos/lumina-logo.svg' %}" alt="Lumina Books">
+    </a>
+    <a class="brand icon-logo" href="{% url 'store:landing' %}" aria-label="Lumina Books home">
+      <img src="{% static 'store/assets/logos/lumina-icon.svg' %}" alt="">
+    </a>
+    <nav class="side-nav">
+      <a href="{% url 'store:landing' %}" class="side-link">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.8 12 3l9 7.8V21h-6v-6H9v6H3V10.8Z"/></svg><span>Home</span>
+      </a>
+      <a href="{% url 'store:book_list' %}" class="side-link">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5C7.4 3.7 10.1 4.1 12 6.2c1.9-2.1 4.6-2.5 8-0.7V20c-3.4-1.8-6.1-1.4-8 .8-1.9-2.2-4.6-2.6-8-.8V5.5Z"/></svg><span>Explore</span>
+      </a>
+      <a href="{% url 'store:book_list' %}#genres" class="side-link">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h6v6H5V5Zm8 0h6v6h-6V5ZM5 13h6v6H5v-6Zm8 0h6v6h-6v-6Z"/></svg><span>Genres</span>
+      </a>
+      <a href="{% url 'store:book_list' %}?best=1" class="side-link">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2 2.9 6 6.6.9-4.8 4.7 1.1 6.6L12 17.1l-5.8 3.1 1.1-6.6-4.8-4.7 6.6-.9L12 2Z"/></svg><span>Best Sellers</span>
+      </a>
+      <a href="{% url 'store:book_list' %}?new=1" class="side-link">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 14 9l7 3-7 3-2 7-2-7-7-3 7-3 2-7Z"/></svg><span>New Arrivals</span>
+      </a>
+      <a href="{% url 'store:book_list' %}?ai=1" class="side-link">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4h8v2h2a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3h-2v2H8v-2H6a3 3 0 0 1-3-3V9a3 3 0 0 1 3-3h2V4Zm1.5 7.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Zm5 0a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3ZM8 14h8v2H8v-2Z"/></svg><span>Audiobooks</span>
+      </a>
+      <a href="{% url 'store:book_list' %}?rating=4.7" class="side-link">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12a1 1 0 0 1 1 1v16l-7-4-7 4V5a1 1 0 0 1 1-1Z"/></svg><span>Saved Books</span>
+      </a>
+      <button type="button" class="side-link side-button" data-cart-open>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7h15l-2 8H8L6 7ZM5 4H2V2h4.5l1 4M9 21a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm8 0a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/></svg><span>Cart</span><strong>{{ cart_count }}</strong>
+      </button>
+      <a href="{% if user.is_staff %}{% url 'store:admin_dashboard' %}{% else %}{% url 'store:login' %}{% endif %}" class="side-link">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8a4 4 0 1 1 0 8 4 4 0 0 1 0-8Zm8.6 5.4-2 .7a7.8 7.8 0 0 1-.8 1.9l1 1.9-2 2-1.9-1a8.3 8.3 0 0 1-1.9.8l-.7 2h-2.8l-.7-2a8.3 8.3 0 0 1-1.9-.8l-1.9 1-2-2 1-1.9a7.8 7.8 0 0 1-.8-1.9l-2-.7v-2.8l2-.7c.2-.7.5-1.3.8-1.9l-1-1.9 2-2 1.9 1c.6-.3 1.2-.6 1.9-.8l.7-2h2.8l.7 2c.7.2 1.3.5 1.9.8l1.9-1 2 2-1 1.9c.3.6.6 1.2.8 1.9l2 .7v2.8Z"/></svg><span>Settings</span>
+      </a>
+    </nav>
+    <div class="sidebar-card">
+      <span>AI Signal</span>
+      <strong>Gemini-ready summaries</strong>
+      <p>Generate concise, spoiler-free book briefings.</p>
+    </div>
+  </aside>
+
+  <div class="mobile-nav-overlay" data-nav-close></div>
+  <header class="topbar" role="banner">
+    <button class="icon-button mobile-menu" type="button" data-nav-open aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+    <a class="topbar-brand" href="{% url 'store:landing' %}">
+      <img src="{% static 'store/assets/logos/lumina-icon.svg' %}" alt="">
+      <span>Lumina</span>
+    </a>
+    <div class="topbar-actions">
+      {% if user.is_authenticated %}
+        <form action="{% url 'store:logout' %}" method="post">{% csrf_token %}<button class="ghost-button" type="submit">Logout</button></form>
+      {% else %}
+        <a class="ghost-button" href="{% url 'store:login' %}">Login</a>
+      {% endif %}
+      <button class="cart-button" type="button" data-cart-open aria-controls="cart-drawer" aria-expanded="false" aria-label="Open cart">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7h15l-2 8H8L6 7ZM5 4H2V2h4.5l1 4M9 21a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm8 0a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/></svg>
+        <strong>{{ cart_count }}</strong>
+      </button>
+    </div>
+  </header>
+
+  {% if messages %}
+    <section class="toast-stack" aria-live="polite" aria-label="Notifications">
+      {% for message in messages %}<p class="toast">{{ message }}</p>{% endfor %}
+    </section>
+  {% endif %}
+
+  <main id="content" class="app-main" tabindex="-1">
+    {% block content %}{% endblock %}
+  </main>
+
+  <aside class="cart-drawer" id="cart-drawer" aria-label="Shopping cart" aria-hidden="true">
+    <div class="cart-panel">
+      <div class="cart-head">
+        <div>
+          <p class="eyebrow">Your selection</p>
+          <h2>Reading queue</h2>
+        </div>
+        <button class="icon-button" type="button" data-cart-close aria-label="Close cart">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
+        </button>
+      </div>
+      <div class="cart-lines">
+        {% for row in cart_items %}
+          <article class="cart-line">
+            <img src="{{ row.book.cover_url }}" alt="" loading="lazy">
+            <div>
+              <p class="recent-pill">Recently added</p>
+              <h3>{{ row.book.title }}</h3>
+              <span>{{ row.quantity }} x ${{ row.book.price }}</span>
+              <form method="post" action="{% url 'store:remove_cart' row.book.id %}">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ request.path }}">
+                <button type="submit">Remove</button>
+              </form>
+            </div>
+          </article>
+        {% empty %}
+          <div class="empty-cart">
+            <img src="{% static 'store/assets/illustrations/empty-cart.svg' %}" alt="">
+            <h3>Your cart is beautifully empty.</h3>
+            <p>Start with a bestseller or let the AI shelf suggest a sharp first pick.</p>
+          </div>
+        {% endfor %}
+      </div>
+      <section class="cart-suggestions" aria-label="Suggested books">
+        <h3>Suggested next</h3>
+        {% for book in cart_suggestions|slice:":2" %}
+          <a href="{{ book.get_absolute_url }}">{{ book.title }} <span>${{ book.price }}</span></a>
+        {% endfor %}
+      </section>
+      <div class="cart-foot">
+        <span>Total</span>
+        <strong>${{ cart_total }}</strong>
+      </div>
+      <a class="primary-action floating-checkout {% if not cart_count %}disabled{% endif %}" href="{% url 'store:checkout' %}">Checkout</a>
+    </div>
+  </aside>
+  <div class="cart-overlay" data-cart-close></div>
+
+  <footer class="footer-shell">
+    <section class="newsletter glass-card" aria-labelledby="newsletter-title">
+      <img src="{% static 'store/assets/illustrations/newsletter.svg' %}" alt="" loading="lazy">
+      <div>
+        <p class="eyebrow">Weekly signal</p>
+        <h2 id="newsletter-title">New books, sharper thinking.</h2>
+        <p>Editorial picks, AI reading notes, and category trends without inbox noise.</p>
+      </div>
+      <form method="post" action="{% url 'store:newsletter' %}" class="newsletter-form">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ request.path }}">
+        {{ newsletter_form.email }}
+        <button type="submit">Subscribe</button>
+      </form>
+    </section>
+    <p class="footer-note">Lumina Books is a premium Django bookstore interface with an AI reading layer.</p>
+  </footer>
+  <script src="{% static 'store/js/app.js' %}"></script>
+</body>
+</html>

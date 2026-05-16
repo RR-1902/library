@@ -1,0 +1,130 @@
+{% extends "store/base.html" %}
+{% load static %}
+{% block title %}Lumina Books - Premium AI Bookstore{% endblock %}
+{% block content %}
+<section class="hero-section premium-hero">
+  <div class="particle-field" aria-hidden="true"></div>
+  <div class="hero-copy reveal">
+    <div class="hero-kicker">
+      <span class="pulse-dot"></span>
+      <span>AI-powered digital bookstore</span>
+    </div>
+    <h1>Read deeper. Discover sharper.</h1>
+    <p class="hero-text">Lumina Books blends cinematic discovery, intelligent summaries, and elegant commerce into a premium reading platform for ambitious minds.</p>
+    <div class="hero-actions">
+      <a class="primary-action" href="{% url 'store:book_list' %}">Explore Library</a>
+      <a class="secondary-action" href="{% url 'store:register' %}">Start Reading</a>
+      <a class="text-action" href="#ai-picks">Discover AI Summaries</a>
+    </div>
+    <div class="floating-stats" aria-label="Store highlights">
+      <div><strong>24k</strong><span>curated readers</span></div>
+      <div><strong>4.8</strong><span>community rating</span></div>
+      <div><strong>AI</strong><span>spoiler-free briefs</span></div>
+    </div>
+  </div>
+  <div class="hero-showcase glass-card reveal">
+    {% if featured %}
+      <div class="showcase-orbit" aria-hidden="true"></div>
+      <img src="{{ featured.cover_url }}" alt="{{ featured.title }} cover">
+      <div class="showcase-card">
+        <p class="eyebrow">Featured drop</p>
+        <h2>{{ featured.title }}</h2>
+        <p>{{ featured.description|truncatewords:22 }}</p>
+        <a href="{{ featured.get_absolute_url }}">Read the briefing</a>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+<section class="content-section">
+  <div class="section-head">
+    <div>
+      <p class="eyebrow">Trending this week</p>
+      <h2>Books moving through the network</h2>
+    </div>
+    <a href="{% url 'store:book_list' %}?rating=4.5">See trendline</a>
+  </div>
+  <div class="horizontal-rail">
+    {% for book in trending %}
+      <a class="rail-card glass-card" href="{{ book.get_absolute_url }}">
+        <img src="{{ book.cover_url }}" alt="{{ book.title }} cover" loading="lazy">
+        <span>{{ book.category.name }}</span>
+        <strong>{{ book.title }}</strong>
+      </a>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="editorial-grid" id="ai-picks">
+  <div class="editorial-feature glass-card reveal">
+    <img src="{% static 'store/assets/illustrations/ai-summary.svg' %}" alt="" loading="lazy">
+    <p class="eyebrow">AI Picks For You</p>
+    <h2>Gemini-ready summaries for high-signal reading.</h2>
+    <p>Each detail page is prepared for concise, spoiler-free AI briefings through the private Gemini integration.</p>
+  </div>
+  <div class="mini-book-list">
+    {% for book in ai_picks %}
+      <a class="mini-book glass-card" href="{{ book.get_absolute_url }}">
+        <img src="{{ book.cover_url }}" alt="" loading="lazy">
+        <div><span>AI recommended</span><strong>{{ book.title }}</strong><p>{{ book.author }}</p></div>
+      </a>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="content-section">
+  <div class="section-head">
+    <div>
+      <p class="eyebrow">Editor's choice</p>
+      <h2>Cinematic picks with serious signal</h2>
+    </div>
+  </div>
+  <div class="cinema-grid">
+    {% for book in best_sellers|slice:":2" %}
+      <a class="cinema-card glass-card reveal" href="{{ book.get_absolute_url }}">
+        <img src="{{ book.cover_url }}" alt="{{ book.title }} cover" loading="lazy">
+        <div><span>{{ book.category.name }}</span><h3>{{ book.title }}</h3><p>{{ book.description|truncatewords:18 }}</p></div>
+      </a>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="collection-section">
+  <div class="section-head">
+    <div>
+      <p class="eyebrow">Reading collections</p>
+      <h2>Curated paths through the library</h2>
+    </div>
+  </div>
+  <div class="collection-grid">
+    {% for collection in collections %}
+      <article class="collection-card glass-card reveal">
+        <span>0{{ forloop.counter }}</span>
+        <h3>{{ collection.name }}</h3>
+        <p>{{ collection.tone }}</p>
+      </article>
+    {% endfor %}
+  </div>
+</section>
+
+{% include "store/partials/book_section.html" with title="Best Sellers" books=best_sellers %}
+{% include "store/partials/book_section.html" with title="New Arrivals" books=new_arrivals %}
+
+<section class="ecosystem-grid">
+  <article class="ecosystem-card glass-card">
+    <p class="eyebrow">Continue reading</p>
+    <h3>Resume from your active stack</h3>
+    <img src="{% static 'store/assets/illustrations/progress.svg' %}" alt="" loading="lazy">
+  </article>
+  <article class="ecosystem-card glass-card">
+    <p class="eyebrow">Audiobook spotlight</p>
+    <h3>Listen to high-signal ideas anywhere</h3>
+    <p>AI narrated collections and audio editions are modeled in the navigation for future expansion.</p>
+  </article>
+  <article class="ecosystem-card glass-card">
+    <p class="eyebrow">Community favorites</p>
+    <h3>Books readers keep recommending</h3>
+    <p>Ratings and best-seller flags power the community shelf.</p>
+  </article>
+</section>
+{% endblock %}

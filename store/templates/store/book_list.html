@@ -1,0 +1,96 @@
+{% extends "store/base.html" %}
+{% load static %}
+{% block title %}Explore - Lumina Books{% endblock %}
+{% block content %}
+<section class="page-hero compact explore-hero">
+  <p class="eyebrow">Explore library</p>
+  <h1>Browse by mood, signal, and momentum.</h1>
+  <form class="search-bar glass-card" method="get" role="search">
+    <label class="sr-only" for="q">Search books</label>
+    <input id="q" name="q" value="{{ query }}" placeholder="Search title or author">
+    <button type="submit">Search</button>
+  </form>
+  {% if active_filter_count %}
+    <div class="active-filter-bar">
+      <span>{{ active_filter_count }} active filter{{ active_filter_count|pluralize }}</span>
+      <a href="{% url 'store:book_list' %}">Clear filters</a>
+    </div>
+  {% endif %}
+</section>
+
+<section class="catalog-layout advanced-catalog">
+  <aside class="filter-panel glass-card" id="genres" aria-label="Advanced filters">
+    <div class="filter-head">
+      <div><p class="eyebrow">Refine</p><h2>Filters</h2></div>
+      <a href="{% url 'store:book_list' %}">Clear</a>
+    </div>
+    <form method="get" class="filter-form">
+      <details open>
+        <summary>Genres</summary>
+        <div class="chip-cloud">
+          {% for category in categories %}
+            <label class="filter-chip {% if active_category == category.slug %}selected{% endif %}">
+              <input type="radio" name="category" value="{{ category.slug }}" {% if active_category == category.slug %}checked{% endif %}>
+              <span>{{ category.name }}</span>
+            </label>
+          {% endfor %}
+          <span class="filter-chip ghost">Sci-Fi</span>
+          <span class="filter-chip ghost">Fantasy</span>
+          <span class="filter-chip ghost">Self-help</span>
+          <span class="filter-chip ghost">Philosophy</span>
+          <span class="filter-chip ghost">Psychology</span>
+          <span class="filter-chip ghost">Education</span>
+          <span class="filter-chip ghost">History</span>
+        </div>
+      </details>
+      <details open>
+        <summary>Quality</summary>
+        <label>Minimum rating<input name="rating" type="number" step="0.1" min="1" max="5" value="{{ min_rating }}" placeholder="4.5"></label>
+        <label>Max price<input name="price" type="number" min="1" value="{{ max_price }}" placeholder="25"></label>
+      </details>
+      <details open>
+        <summary>Metadata</summary>
+        <label>Author<input name="author" value="{{ author }}" placeholder="Author name"></label>
+        <label>Publication year<input name="year" value="{{ year }}" placeholder="2026"></label>
+      </details>
+      <details open>
+        <summary>Availability</summary>
+        <label class="switch-row"><input type="checkbox" name="best" value="1" {% if active_flags.best %}checked{% endif %}><span></span>Best seller</label>
+        <label class="switch-row"><input type="checkbox" name="new" value="1" {% if active_flags.new %}checked{% endif %}><span></span>New arrival</label>
+        <label class="switch-row"><input type="checkbox" name="ai" value="1" {% if active_flags.ai %}checked{% endif %}><span></span>AI recommended</label>
+        <label class="switch-row"><input type="checkbox" name="stock" value="1" {% if active_flags.stock %}checked{% endif %}><span></span>In stock</label>
+      </details>
+      <button class="primary-action" type="submit">Apply filters</button>
+    </form>
+  </aside>
+  <div>
+    <div class="catalog-toolbar">
+      <div><span>{{ books|length }} results</span><strong>Hybrid masonry shelf</strong></div>
+      <button class="secondary-action" type="button" data-filter-jump>Filters</button>
+    </div>
+    <div class="book-grid catalog masonry-grid">
+      {% for book in books %}
+        {% include "store/partials/book_card.html" %}
+      {% empty %}
+        <div class="empty-state illustrated-empty">
+          <img src="{% static 'store/assets/illustrations/search-empty.svg' %}" alt="">
+          <h3>No matching books yet.</h3>
+          <p>Try clearing filters or searching a broader author/title phrase.</p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="quick-preview-modal" aria-hidden="true" aria-label="Book quick preview">
+  <div class="quick-preview-card glass-card">
+    <button class="icon-button" type="button" data-preview-close aria-label="Close preview">×</button>
+    <img data-preview-cover-target src="" alt="">
+    <div>
+      <p class="eyebrow" data-preview-author-target></p>
+      <h2 data-preview-title-target></h2>
+      <p data-preview-desc-target></p>
+    </div>
+  </div>
+</section>
+{% endblock %}

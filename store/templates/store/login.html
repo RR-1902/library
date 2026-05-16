@@ -1,0 +1,23 @@
+{% extends "store/base.html" %}
+{% load static %}
+{% block title %}Login - Lumina Books{% endblock %}
+{% block content %}
+<section class="auth-layout">
+  <div class="auth-visual glass-card">
+    <img src="{% static 'store/assets/illustrations/auth.svg' %}" alt="">
+    <p class="eyebrow">Private library</p>
+    <h2>Come back to your reading stack.</h2>
+    <p>Saved books, cart state, and staff tools live behind a clean Django auth layer.</p>
+  </div>
+  <div class="auth-shell glass-card">
+    <p class="eyebrow">Welcome back</p>
+    <h1>Login</h1>
+    <form method="post" class="stacked-form">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button class="primary-action" type="submit">Login</button>
+    </form>
+    <p>New here? <a href="{% url 'store:register' %}">Create an account</a></p>
+  </div>
+</section>
+{% endblock %}

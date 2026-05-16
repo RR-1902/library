@@ -1,0 +1,38 @@
+<article class="book-card glass-card reveal tilt-card">
+  <div class="book-cover-wrap">
+    <a href="{{ book.get_absolute_url }}" class="cover-link" aria-label="View {{ book.title }}">
+      <img src="{{ book.cover_url }}" alt="{{ book.title }} cover" loading="lazy">
+    </a>
+    <div class="cover-badges">
+      <span>{{ book.rating }} ★</span>
+      {% if book.rating >= 4.5 %}<span class="ai-badge">AI pick</span>{% endif %}
+    </div>
+    <button class="bookmark-button" type="button" aria-label="Save {{ book.title }}">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v17l-6-3.8L6 21V4Z"/></svg>
+    </button>
+  </div>
+  <div class="book-meta">
+    <div class="meta-row">
+      <span class="genre-chip">{{ book.category.name }}</span>
+      {% if book.is_new_arrival %}<span class="soft-chip">New</span>{% endif %}
+    </div>
+    <h3><a href="{{ book.get_absolute_url }}">{{ book.title }}</a></h3>
+    <p>by {{ book.author }}</p>
+  </div>
+  <div class="book-reveal">
+    <p>{{ book.description|truncatewords:14 }}</p>
+  </div>
+  <div class="book-actions">
+    <strong>${{ book.price }}</strong>
+    <div>
+      <button class="quick-preview" type="button" data-preview-title="{{ book.title }}" data-preview-author="{{ book.author }}" data-preview-desc="{{ book.description|truncatewords:28 }}" data-preview-cover="{{ book.cover_url }}">Preview</button>
+      <form method="post" action="{% url 'store:add_cart' book.id %}">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ request.path }}">
+        <button type="submit" aria-label="Add {{ book.title }} to cart">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+        </button>
+      </form>
+    </div>
+  </div>
+</article>

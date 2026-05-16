@@ -1,0 +1,53 @@
+{% extends "store/base.html" %}
+{% block title %}Studio Dashboard - Lumina Books{% endblock %}
+{% block content %}
+<section class="page-hero compact dashboard-hero">
+  <p class="eyebrow">Admin studio</p>
+  <h1>Analytics cockpit for a premium bookstore.</h1>
+  <a class="secondary-action" href="/secure-admin/">Open Django admin</a>
+</section>
+<section class="dashboard-grid">
+  <article class="stat-card glass-card"><span>Books</span><strong>{{ stats.books }}</strong><small>Catalog depth</small></article>
+  <article class="stat-card glass-card"><span>Orders</span><strong>{{ stats.orders }}</strong><small>Live commerce</small></article>
+  <article class="stat-card glass-card"><span>Subscribers</span><strong>{{ stats.subscribers }}</strong><small>Audience growth</small></article>
+  <article class="stat-card glass-card"><span>Revenue</span><strong>${{ stats.revenue }}</strong><small>Reserved total</small></article>
+</section>
+<section class="analytics-layout">
+  <article class="chart-panel glass-card">
+    <div class="section-head"><div><p class="eyebrow">Revenue</p><h2>Orders graph</h2></div></div>
+    <div class="bar-chart" aria-label="Revenue chart">
+      <span style="--h:42%"></span><span style="--h:68%"></span><span style="--h:54%"></span><span style="--h:86%"></span><span style="--h:72%"></span><span style="--h:95%"></span>
+    </div>
+  </article>
+  <article class="chart-panel glass-card">
+    <div class="section-head"><div><p class="eyebrow">Growth</p><h2>User growth</h2></div></div>
+    <div class="line-chart" aria-hidden="true"><svg viewBox="0 0 420 160"><path d="M10 130C60 110 76 75 120 82C168 90 172 38 220 45C272 53 286 104 340 70C370 50 390 42 410 36"/></svg></div>
+  </article>
+</section>
+<section class="admin-panels">
+  <div class="glass-card data-panel">
+    <h2>Recent orders</h2>
+    {% for order in recent_orders %}
+      <div class="data-row"><span>#{{ order.id }} {{ order.full_name }}</span><strong>${{ order.total }}</strong></div>
+    {% empty %}<p>No orders yet.</p>{% endfor %}
+  </div>
+  <div class="glass-card data-panel">
+    <h2>Category analytics</h2>
+    {% for category in category_stats %}
+      <div class="data-row"><span>{{ category.name }}</span><strong>{{ category.book_count }}</strong></div>
+    {% empty %}<p>No categories yet.</p>{% endfor %}
+  </div>
+  <div class="glass-card data-panel">
+    <h2>Low stock warnings</h2>
+    {% for book in low_stock %}
+      <div class="data-row warning"><span>{{ book.title }}</span><strong>{{ book.stock }}</strong></div>
+    {% empty %}<p>Inventory looks healthy.</p>{% endfor %}
+  </div>
+  <div class="glass-card data-panel">
+    <h2>Top rated books</h2>
+    {% for book in top_books %}
+      <div class="data-row"><span>{{ book.title }}</span><strong>{{ book.rating }}</strong></div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

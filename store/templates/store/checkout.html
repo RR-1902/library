@@ -1,0 +1,24 @@
+{% extends "store/base.html" %}
+{% block title %}Checkout - Lumina Books{% endblock %}
+{% block content %}
+<section class="checkout-layout">
+  <div class="glass-card checkout-card">
+    <p class="eyebrow">Secure checkout</p>
+    <h1>Reserve your stack</h1>
+    <p>Complete the order details and Lumina will preserve this reading queue as an order.</p>
+    <form method="post" class="stacked-form">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button class="primary-action" type="submit">Complete order</button>
+    </form>
+  </div>
+  <aside class="glass-card order-summary" aria-label="Order summary">
+    <p class="eyebrow">Order summary</p>
+    <h2>{{ count }} item{{ count|pluralize }}</h2>
+    {% for row in items %}
+      <div><span>{{ row.book.title }} x {{ row.quantity }}</span><strong>${{ row.line_total }}</strong></div>
+    {% endfor %}
+    <footer><span>Total</span><strong>${{ total }}</strong></footer>
+  </aside>
+</section>
+{% endblock %}

@@ -1,0 +1,18 @@
+<section class="content-section">
+  <div class="section-head">
+    <div>
+      <p class="eyebrow">Curated shelf</p>
+      <h2>{{ title }}</h2>
+    </div>
+    <a href="{% url 'store:book_list' %}">View all</a>
+  </div>
+  <div class="book-grid">
+    {% for book in books %}
+      {% include "store/partials/book_card.html" %}
+    {% empty %}
+      <div class="skeleton-card" aria-hidden="true"></div>
+      <div class="skeleton-card" aria-hidden="true"></div>
+      <div class="skeleton-card" aria-hidden="true"></div>
+    {% endfor %}
+  </div>
+</section>

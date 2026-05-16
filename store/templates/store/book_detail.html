@@ -1,0 +1,75 @@
+{% extends "store/base.html" %}
+{% load static %}
+{% block title %}{{ book.title }} - Lumina Books{% endblock %}
+{% block content %}
+<article class="detail-layout premium-detail">
+  <aside class="detail-cover glass-card reveal">
+    <img src="{{ book.cover_url }}" alt="{{ book.title }} cover">
+    <div class="cover-stat-grid">
+      <div><span>Rating</span><strong>{{ book.rating }}</strong></div>
+      <div><span>Stock</span><strong>{{ book.stock }}</strong></div>
+    </div>
+  </aside>
+  <section class="detail-copy reveal">
+    <div class="meta-row">
+      <span class="genre-chip">{{ book.category.name }}</span>
+      {% if book.is_best_seller %}<span class="soft-chip">Best seller</span>{% endif %}
+      {% if book.is_new_arrival %}<span class="soft-chip">New arrival</span>{% endif %}
+    </div>
+    <h1>{{ book.title }}</h1>
+    <p class="author">by {{ book.author }}</p>
+    <p>{{ book.description }}</p>
+    <div class="tab-card glass-card" data-tabs>
+      <div class="tab-list" role="tablist" aria-label="Book detail sections">
+        <button class="active" type="button" role="tab" data-tab="overview">Overview</button>
+        <button type="button" role="tab" data-tab="summary">Gemini summary</button>
+        <button type="button" role="tab" data-tab="reviews">Reviews</button>
+        <button type="button" role="tab" data-tab="similar">Similar Books</button>
+      </div>
+      <div class="tab-panel active" data-panel="overview">
+        <div class="reading-stats">
+          <div><span>Reading time</span><strong>4h 20m</strong></div>
+          <div><span>Pages</span><strong>286</strong></div>
+          <div><span>Community</span><strong>{{ book.rating }} / 5</strong></div>
+        </div>
+      </div>
+      <div class="tab-panel" data-panel="summary">
+        <div class="ai-summary-inline">
+          <img src="{% static 'store/assets/illustrations/ai-summary.svg' %}" alt="">
+          {% if book.ai_summary %}
+            <p>{{ book.ai_summary }}</p>
+          {% else %}
+            <p>The AI briefing is ready to generate when the private Gemini configuration is available in this environment.</p>
+          {% endif %}
+        </div>
+      </div>
+      <div class="tab-panel" data-panel="reviews">
+        <p>Readers describe this as a high-signal pick with strong practical value and elegant pacing.</p>
+      </div>
+      <div class="tab-panel" data-panel="similar">
+        <div class="similar-inline">
+          {% for item in related %}
+            <a href="{{ item.get_absolute_url }}">{{ item.title }}</a>
+          {% empty %}
+            <span>No similar books yet.</span>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </section>
+  <aside class="sticky-buy-panel glass-card">
+    <p class="eyebrow">Acquire edition</p>
+    <strong class="price">${{ book.price }}</strong>
+    <form method="post" action="{% url 'store:add_cart' book.id %}">
+      {% csrf_token %}
+      <input type="hidden" name="next" value="{{ request.path }}">
+      <button class="primary-action" type="submit">Add to cart</button>
+    </form>
+    <div class="share-row" aria-label="Share and save">
+      <button type="button">Save</button>
+      <button type="button">Share</button>
+    </div>
+  </aside>
+</article>
+{% include "store/partials/book_section.html" with title="Similar Books" books=related %}
+{% endblock %}

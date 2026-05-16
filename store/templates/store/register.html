@@ -1,0 +1,23 @@
+{% extends "store/base.html" %}
+{% load static %}
+{% block title %}Register - Lumina Books{% endblock %}
+{% block content %}
+<section class="auth-layout">
+  <div class="auth-visual glass-card">
+    <img src="{% static 'store/assets/illustrations/auth.svg' %}" alt="">
+    <p class="eyebrow">Join Lumina</p>
+    <h2>Create a sharper reading profile.</h2>
+    <p>Register to keep your cart, reading preferences, and future AI recommendations aligned.</p>
+  </div>
+  <div class="auth-shell glass-card">
+    <p class="eyebrow">Join the shelf</p>
+    <h1>Create account</h1>
+    <form method="post" class="stacked-form">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button class="primary-action" type="submit">Register</button>
+    </form>
+    <p>Already have an account? <a href="{% url 'store:login' %}">Login</a></p>
+  </div>
+</section>
+{% endblock %}

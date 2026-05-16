@@ -1,0 +1,19 @@
+<svg width="220" height="56" viewBox="0 0 220 56" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title">
+  <title id="title">Lumina Books</title>
+  <defs>
+    <linearGradient id="mark" x1="6" y1="4" x2="50" y2="52" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#8EE7D1"/>
+      <stop offset=".5" stop-color="#8B5CF6"/>
+      <stop offset="1" stop-color="#F6C177"/>
+    </linearGradient>
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect x="1" y="1" width="54" height="54" rx="18" fill="url(#mark)" opacity=".18" stroke="rgba(255,255,255,.28)"/>
+  <path d="M14 17.4C19.6 14.2 24.8 14.5 29 18.2C33.2 14.5 38.4 14.2 44 17.4V39.2C38.3 36.3 33.3 36.7 29 40.4C24.7 36.7 19.7 36.3 14 39.2V17.4Z" fill="url(#mark)" filter="url(#glow)"/>
+  <path d="M29 18.5V40.4" stroke="#F8FBFF" stroke-width="1.8" stroke-linecap="round" opacity=".85"/>
+  <path d="M71 38V16.8H75.8V33.9H86.1V38H71ZM91.9 38.3C88.4 38.3 86.2 36.1 86.2 32.4V22.1H90.8V31.5C90.8 33.4 91.7 34.3 93.3 34.3C95.1 34.3 96.2 33.1 96.2 30.9V22.1H100.8V38H96.4V35.9C95.5 37.4 94 38.3 91.9 38.3ZM104.8 38V22.1H109.2V24.2C110.1 22.7 111.5 21.8 113.6 21.8C115.8 21.8 117.3 22.8 118.1 24.5C119.1 22.8 120.9 21.8 123.1 21.8C126.5 21.8 128.4 24 128.4 27.5V38H123.8V28.4C123.8 26.6 123 25.8 121.6 25.8C120 25.8 119 27 119 29.1V38H114.4V28.4C114.4 26.6 113.6 25.8 112.2 25.8C110.6 25.8 109.4 27 109.4 29.1V38H104.8ZM132.5 38V22.1H137.1V38H132.5ZM132.2 19.6V15.6H137.4V19.6H132.2ZM141.2 38V22.1H145.6V24.3C146.6 22.8 148.1 21.8 150.4 21.8C153.9 21.8 155.9 24 155.9 27.7V38H151.3V28.5C151.3 26.6 150.4 25.7 148.8 25.7C147 25.7 145.8 26.9 145.8 29.2V38H141.2ZM165 38.3C161.9 38.3 159.8 36.7 159.8 33.8C159.8 30.3 163.1 29.2 167.7 29.2H169.6V28.6C169.6 26.7 168.9 25.7 167 25.7C165.4 25.7 164.5 26.5 164.3 27.9H160.1C160.5 24 163.6 21.8 167.3 21.8C171.7 21.8 174.1 23.7 174.1 28.4V38H169.7V36.2C168.8 37.4 167.4 38.3 165 38.3ZM166.4 35.2C168.2 35.2 169.6 34.2 169.6 32.6V31.4H167.8C165.4 31.4 164.3 32 164.3 33.5C164.3 34.6 165 35.2 166.4 35.2Z" fill="#F8FBFF"/>
+  <path d="M72 48.5H174" stroke="url(#mark)" stroke-width="1.4" stroke-linecap="round" opacity=".62"/>
+</svg>
